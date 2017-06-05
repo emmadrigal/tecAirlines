@@ -10,9 +10,13 @@ namespace reservationMicroservice.Models
         private string reservationNumber;
         private long idFlight;
         private int seatNumber;
+        private string status;
+        private string date;
 
-        public string ReservationNumber { get => reservationNumber; set => reservationNumber = value; }
-        public long IdFlight { get => idFlight; set => idFlight = value; }
-        public int SeatNumber { get => seatNumber; set => seatNumber = value; }
+        public string ReservationNumber { get; set; }
+        public long IDFlight { get; set; }
+        public int SeatNumber { get; set; }
+        public string Status { get; set; }
+        public DateTime Date { get; set; }
     }
 }
