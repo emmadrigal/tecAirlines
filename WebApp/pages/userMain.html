@@ -1,0 +1,124 @@
+<nav class="navbar navbar-default" role="navigation">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="#">TEC-Airlines</a>
+    </div>
+    <div class="collapse navbar-collapse" uib-collapse="isNavCollapsed">
+        <ul class="nav navbar-nav navbar-right">
+            <li uib-dropdown on-toggle="toggled(open)">
+                <a href id="simple-dropdown" class="nav-text" uib-dropdown-toggle>Signed in as {{user.username}} <span class="caret"></span></a>
+                <ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
+                    <li><a href="#">Change Password</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a ng-click="openProfileInfoForm()">Modify Profile Info</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="#">Booked Flights List</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a ng-click="openCancelReservationForm()">Cancel A Reservation</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a uib-popover="You have {{user.frequentFlyerMiles}} miles" popover-trigger="'mouseenter'" popover-placement="left">Check Miles</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="#">Sign Out</a></li>
+
+                </ul>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="jumbotron text-center">
+  <uib-accordion close-others="oneAtATime">
+      <div uib-accordion-group class="panel-default" heading="Flight Search" is-open="status.isFirstOpen" is-disabled="status.isFirstDisabled">
+          <div class="container">
+            <form>
+            <div class="col-md-3 form-group">
+                <label>From: </label>
+                <input class="form-control" type="text"/>
+            </div>
+            <div class="col-md-3 form-group">
+                <label>Depart</label>
+                <input class="form-control" type="date"/>
+            </div>
+            <div class="col-md-3 form-group">
+                <label>To: </label>
+                <input class="form-control" type="text"/>
+            </div>
+            <div class="col-md-3 form-group">
+                <label>Return</label>
+                <input class="form-control" type="date"/>
+            </div>
+            <button type="submit" class="btn btn-default" ng-click="goTo('searchFlight')">Search</button>
+          </form>
+          </div>
+      </div>
+
+      <div uib-accordion-group class="panel-default" heading="Flight Status">
+        <div class="container">
+          <form>
+            <div class="col-md-6 form-group">
+                <label>Flight Date</label>
+                <input class="form-control" type="date"/>
+            </div>
+            <div class="col-md-6 form-group">
+                <label>Flight Number</label>
+                <input class="form-control" type="text"/>
+            </div>
+            <div class="col-md-12 form-group">
+              <label>-------- OR --------</label>
+            </div>
+            <div class="col-md-6 form-group">
+                <label>From: </label>
+                <input class="form-control" type="date"/>
+            </div>
+            <div class="col-md-6 form-group">
+                <label>To: </label>
+                <input class="form-control" type="date"/>
+            </div>
+            <button type="submit" class="btn btn-default">Search</button>
+          </form>
+      </div>
+      </div>
+
+      <div uib-accordion-group class="panel-default" heading="Check-In">
+        <div class="container">
+          <form action="/action_page.php">
+            <div class="col-md-12 form-group">
+                <label>Flight Reservation Number</label>
+                <input class="form-control" type="text"/>
+            </div>
+            <div class="col-md-12 form-group">
+              <label>-------- OR --------</label>
+            </div>
+            <div class="col-md-6 form-group">
+                <label>Name</label>
+                <input class="form-control" type="text"/>
+            </div>
+            <div class="col-md-6 form-group">
+                <label>ID</label>
+                <input class="form-control" type="text"/>
+            </div>
+            <div class="col-md-6 form-group">
+                <label>Last Name</label>
+                <input class="form-control" type="text"/>
+            </div>
+            <div class="col-md-6 form-group">
+                <label>Date</label>
+                <input class="form-control" type="date"/>
+            </div>
+            <button type="submit" class="btn btn-default">Search</button>
+          </form>
+      </div>
+      </div>
+  </uib-accordion>
+</div>
+
+<footer class="text-center">
+  <div ng-controller="promotionController">
+    <div style="height: 305px">
+      <div uib-carousel active="active" interval="myInterval" no-wrap="noWrapSlides">
+        <div uib-slide ng-repeat="slide in slides track by slide.id" index="slide.id">
+          <img ng-src="{{slide.image}}" style="margin:auto;">
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
