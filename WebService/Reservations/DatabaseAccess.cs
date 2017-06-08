@@ -143,6 +143,14 @@ namespace reservationMicroservice
                 doc = XDocument.Load(Filename);
                 XElement parent = doc.Root;
 
+
+                //This code is used to test that all column requested for the update are valid
+                XElement tester = (XElement) parent.FirstNode;
+                if (tester != null)
+                    foreach(string attribute in attributestoChange)
+                        if (tester.Attribute(attribute) == null)
+                            return false;
+
                 //Goes through each saved element
                 foreach (XElement element in parent.Elements())
                 {
@@ -155,7 +163,7 @@ namespace reservationMicroservice
                             //Changes all necessary attributes
                             for (int j = 0; j < attributestoChange.Count; j++)
                             {
-                                element.Attribute(attributestoChange[j]).Value = changes[j];     
+                                element.Attribute(attributestoChange[j]).Value = changes[j];
                             }
                             updated = true;
                         }

@@ -26,17 +26,16 @@ namespace reservationMicroservice
         public List<Models.Reservation> SelectReservation(string userName, string date)
         {
             //Checkea que la fecha venga en el formato correcto
+            DateTime fecha;
             try
             {
                 //Le da el correcto formato a la fecha
-                DateTime fecha = DateTime.Parse(date);
+                fecha = DateTime.Parse(date);
             }
             catch
             {
                 return null;
             }
-
-
 
             List<string> attributes = new List<string>
             {
@@ -46,7 +45,7 @@ namespace reservationMicroservice
             List<string> keys = new List<string>
             {
                 userName,
-                date.ToString()
+                fecha.ToString()
             };
 
             List<Models.Reservation> reservationReturnList = new List<Models.Reservation>();
@@ -108,11 +107,17 @@ namespace reservationMicroservice
 
         /**
          * Gets information about a specific reservation
-         * @param userName whose resrvations will be shown
-         * @return List of flights of the user
+         * Note: this isnt available as a service to the REST service, its for internal use only
+         * @param reservation whose information is to be gotten
+         * @return Information about the specific reservation
          */
         public List<Models.Reservation> SelectReservationByNumber(string reservationNumber)
         {
+            //Checks that the number is a hexadecimal number, since only these area available as reservation numbers
+            if (!System.Text.RegularExpressions.Regex.IsMatch(reservationNumber, @"\A\b[0-9a-fA-F]+\b\Z")){
+                return null;
+            }
+
             List<string> attributes = new List<string>
             {
                 "reservationNumber"
@@ -196,8 +201,7 @@ namespace reservationMicroservice
          */
         public bool InsertSeat(string reservationNumber, int seat)
         {
-            return true;
-
+            throw new NotImplementedException();
         }
 
         /**
@@ -208,6 +212,12 @@ namespace reservationMicroservice
          */
         public bool Update(string reservationNumber, string newValue, string column)
         {
+            //Checks that the reservation number is a hex number
+            if (!System.Text.RegularExpressions.Regex.IsMatch(reservationNumber, @"\A\b[0-9a-fA-F]+\b\Z"))
+            {
+                return false;
+            }
+
             List<string> attributes = new List<string>
             {
                 "reservationNumber"
@@ -236,7 +246,7 @@ namespace reservationMicroservice
          */
         public bool InsertBagInfo(string reservationNumber, float weight)
         {
-            return true;
+            throw new NotImplementedException();
         }
 
         /**

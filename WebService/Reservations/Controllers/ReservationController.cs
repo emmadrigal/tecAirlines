@@ -63,9 +63,10 @@ namespace reservationMicroservice.Controllers
         public IHttpActionResult ReserveFlight([FromBody] Models.ReservationCreation newReservation)
         {
             ReservationAccessService dataLayer = new ReservationAccessService("reservations");
+
             dataLayer.ReserveFlight(newReservation.Username, newReservation.UserID, newReservation.FlightNumber, newReservation.Date);
-            
-            return Ok();
+
+            return Ok();            
         }
 
         /**
