@@ -93,6 +93,25 @@ tecAirlineApp.controller('cancelReservationFormController', function($scope, $ui
 
 tecAirlineApp.controller('modifyInfoFormController', function($scope, $uibModalInstance, user) {
 	$scope.user = user;
+
+  $scope.saveInfo = function(){
+    var newFile = {
+      name: $scope.newName,
+      firstSurname: $scope.newFirstSurname,
+      secondSurname: $scope.newSecondSurname,
+      id: 123,
+      telephoneNumber: $scope.newTelephoneNumber,
+      username: $scope.newUserName,
+      password: $scope.newPassword,
+      birthdate: $scope.newBirthdate,
+      email: $scope.newEmail,
+      identification: $scope.newID,
+      frequentFlyerMiles: 10000
+    };
+    console.log(newFile);
+    $scope.goBack();
+  }
+
 	$scope.goBack = function(){
 		$uibModalInstance.dismiss('cancel');
 	}
@@ -159,92 +178,98 @@ tecAirlineApp.controller('promotionController', function($scope){
 tecAirlineApp.controller('mainController', function($scope, $location, $uibModal){
 
 	$scope.openSignupForm = function () {
-        var modalInstance = $uibModal.open({
+    var modalInstance = $uibModal.open({
 			controller: 'signupFormController',
-            templateUrl: 'signupForm.html'
-        });
-    }
+      templateUrl: 'signupForm.html'
+    });
+  }
 
-    $scope.openLoginForm = function () {
-        var modalInstance = $uibModal.open({
-			controller: 'loginFormController',
-            templateUrl: 'loginForm.html'
-        });
-    }
+  $scope.openLoginForm = function () {
+    var modalInstance = $uibModal.open({
+      controller: 'loginFormController',
+      templateUrl: 'loginForm.html',
+      backdrop: 'static',
+      keyboard: false
+    });
+  }
 
-    $scope.openReservationForm = function(value){
+  $scope.openReservationForm = function(value){
+  	var modalInstance = $uibModal.open({
+		  controller: 'reservationFormController',
+      templateUrl: 'reservationForm.html',
+      backdrop: 'static',
+      keyboard: false,
+      resolve: {
+      	value: function(){
+      		return value;
+      	}
+      }
+    });
+  }
 
-    	var modalInstance = $uibModal.open({
-			controller: 'reservationFormController',
-            templateUrl: 'reservationForm.html',
-            resolve: {
-            	value: function(){
-            		return value;
-            	}
-            }
-        });
-    	console.log(value);
-    }
+  $scope.openCancelReservationForm = function(){
 
-    $scope.openCancelReservationForm = function(){
-
-    	var listFlights = $scope.listFlights;
-		var modalInstance = $uibModal.open({
+  	var listFlights = $scope.listFlights;
+	  var modalInstance = $uibModal.open({
 			controller: 'cancelReservationFormController',
-            templateUrl: 'cancelReservationForm.html',
-            resolve: {
-            	listFlights: function(){
-            		return listFlights;
-            	}
-            }
-        });
-    }
+      templateUrl: 'cancelReservationForm.html',
+      backdrop: 'static',
+      keyboard: false,        
+      resolve: {
+      	listFlights: function(){
+      		return listFlights;
+      	}
+      }
+    });
+  }
 
-    $scope.openProfileInfoForm = function(){
+  $scope.openProfileInfoForm = function(){
 
-    	var user = $scope.user;
+  	var user = $scope.user;
 		var modalInstance = $uibModal.open({
 			controller: 'modifyInfoFormController',
-            templateUrl: 'profileInfoForm.html',
-            resolve: {
-            	user: function(){
-            		return user;
-            	}
-            }
-        });
-    }
+      templateUrl: 'profileInfoForm.html',
+      backdrop: 'static',
+      keyboard: false,
+      resolve: {
+      	user: function(){
+      		return user;
+      	}
+      }
+    });
+  }
 
-    $scope.oneAtATime = true;
-    $scope.isCollapsed = true;
+  $scope.oneAtATime = true;
+  $scope.isCollapsed = true;
 
-    $scope.status = {
-	    isCustomHeaderOpen: false,
-	    isFirstOpen: false,
-	    isFirstDisabled: false
-  	};
+  $scope.status = {
+    isCustomHeaderOpen: false,
+    isFirstOpen: false,
+    isFirstDisabled: false
+	};
 
-  	$scope.listFlights = [
-  		{id: 123, depATO: "SJO", arrivATO: "LAX", duration: 1200, price: "$100 or 1000 miles", depTime: "12:00 am", arrivTime: "8:00 pm"},
-  		{id: 124, depATO: "SJO", arrivATO: "LAX", duration: 1200, price: "$100 or 1000 miles", depTime: "12:00 am", arrivTime: "8:00 pm"},
-  		{id: 125, depATO: "SJO", arrivATO: "LAX", duration: 1200, price: "$100 or 1000 miles", depTime: "12:00 am", arrivTime: "8:00 pm"}
-  	];
+	$scope.listFlights = [
+		{id: 123, depATO: "SJO", arrivATO: "LAX", duration: 1200, price: "$100 or 1000 miles", depTime: "12:00 am", arrivTime: "8:00 pm"},
+		{id: 124, depATO: "SJO", arrivATO: "LAX", duration: 1200, price: "$100 or 1000 miles", depTime: "12:00 am", arrivTime: "8:00 pm"},
+		{id: 125, depATO: "SJO", arrivATO: "LAX", duration: 1200, price: "$100 or 1000 miles", depTime: "12:00 am", arrivTime: "8:00 pm"}
+	];
 
-  	$scope.user = {
-  		name: "Emma",
-  		firstSurname: "Madrigal",
-  		secondSurname: "Cerdas",
-  		id: 123,
-  		telephoneNumber: 680,
-  		username: "emma123",
-  		password: "pass",
-  		birthdate: "12/12/1999",
-  		email: "email@email.com",
-  		identification: 1234,
-  		frequentFlyerMiles: 10000
-  	};
+	$scope.user = {
+		name: "Emma",
+		firstSurname: "Madrigal",
+		secondSurname: "Cerdas",
+		id: 123,
+		telephoneNumber: 680,
+		username: "emma123",
+		password: "pass",
+		birthdate: "12/12/1999",
+		email: "email@email.com",
+		identification: 1234,
+		frequentFlyerMiles: 10000
+	};
 
-  	$scope.goTo = function ( path ) {
-    	$location.path( path );
-    };
+	$scope.goTo = function ( path ) {
+  	$location.path( path );
+  };
 
 });

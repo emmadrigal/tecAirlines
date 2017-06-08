@@ -94,10 +94,44 @@
   <script type="text/ng-template" id="profileInfoForm.html">
     <form>
       <div>
-        <button ng-click="goBack()">Cancel</button>
+        <label>Name</label>
+        <input class="form-control" type="text" id="newName" ng-model="newName" ng-init="newName=user.name">
       </div>
       <div>
-        <button ng-click="">Submit</button>
+        <label>First Surname</label>
+        <input class="form-control" type="text" id="newFirstSurname" ng-model="newFirstSurname" ng-init="newFirstSurname=user.firstSurname">
+      </div>
+      <div>
+        <label>Second Surname</label>
+        <input class="form-control" type="text" id="newSecondSurname" ng-model="newSecondSurname" ng-init="newSecondSurname=user.secondSurname"/
+      </div>
+      <div>
+        <label>Telephone Number</label>
+        <input class="form-control" type="text" id="newTelephoneNumber" ng-model="newTelephoneNumber" ng-init="newTelephoneNumber=user.telephoneNumber">
+      </div>
+      <div>
+        <label>Username</label>
+        <input class="form-control" type="text" id="newUserName" ng-model="newUserName" ng-init="newUserName=user.username">
+      </div>
+      <div>
+        <label>Password</label>
+        <input class="form-control" type="text" id="newPassword" ng-model="newPassword" ng-init="newPassword=user.password">
+      </div>
+      <div>
+        <label>Birthdate</label>
+        <input class="form-control" type="text" id="newBirthdate" ng-model="newBirthdate" ng-init="newBirthdate=user.birthdate">
+      </div>
+      <div>
+        <label>Email</label>
+        <input class="form-control" type="text" id="newEmail" ng-model="newEmail" ng-init="newEmail=user.email">
+      </div>
+      <div>
+        <label>ID</label>
+        <input class="form-control" type="text" id="newID" ng-model="newID" ng-init="newID=user.identification">
+      </div>
+      <div>
+        <button ng-click="goBack()">Cancel</button>
+        <button ng-click="saveInfo()">Save</button>
       </div>
     </form>
   </script>
