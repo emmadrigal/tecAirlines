@@ -16,11 +16,16 @@ namespace promotionMicroservice
 		/// This method gets all the promotions in the xml file
 		/// </summary>
 		/// <returns>The complete list of promotions</returns>
-		public List<Models.Promotion> SelectPromotions(){
+		public List<Models.Promotion> SelectPromotions()
+		{
 			XDocument document = XDocument.Load(Filename);
 			XElement parent = document.Root;
 			List<Models.Promotion> promotions = new List<Models.Promotion>();
-				foreach (XElement element in parent.Elements())
+			DateTime localDate = DateTime.Now;
+			foreach (XElement element in parent.Elements())
+			{
+				int expiration = (DateTime.Compare(DateTime.Parse(element.Attribute("expirationTime").Value), localDate));
+				if (expiration < 0)
 				{
 					Models.Promotion promotionToAdd = new Models.Promotion()
 					{
@@ -30,7 +35,14 @@ namespace promotionMicroservice
 
 					};
 					promotions.Add(promotionToAdd);
+
 				}
+				else
+				{
+
+				}
+				
+			}
 			return promotions;
 		}
 

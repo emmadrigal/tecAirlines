@@ -63,30 +63,8 @@ namespace promotionMicroservice.Controllers
 		[Route("all")] 
 		public IHttpActionResult GetPromotions()
 		{
-			int seconds = 3;
-			var tid1 = new Thread(() => {
-				
-				while (true)
-				{
-					
-					for(contador = 1; contador < 5; contador++)
-					{
-						Thread.Sleep(seconds * 1000);
-
-						System.Diagnostics.Debug.WriteLine(contador);
-
-					}
-					
-					
-				}
-			});
-			tid1.Start();
-			tid1.Join(1000);
-			PromotionAccessService dataLayer = new PromotionAccessService("promotions");
-			
-			
-			
-			return Ok(dataLayer.SelectPromotion(contador.ToString()));
+			PromotionAccessService dataLayer = new PromotionAccessService("promotions");	
+			return Ok(dataLayer.SelectPromotions());
 		}
 		/// <summary>
 		/// It is used to get a promotion depending on the promotion parameter id
