@@ -12,6 +12,10 @@ namespace reservationMicroservice
 
         public string Filename { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="filename"></param>
         public DatabaseAccess(string filename)
         {
             DatabaseAccessBuilder builder = new DatabaseAccessBuilder();
@@ -25,7 +29,7 @@ namespace reservationMicroservice
          * @param elementName Name of the element to be added
          * @param attributeName List of attribute names
          * @param attribute List of attributes that correspond to the attribute names
-         * return a boolean indicating the success of the operation
+         * @return a boolean indicating the success of the operation
          */
         protected bool AddElement(string elementName, List<string> attributeName, List<string> attribute)
         {

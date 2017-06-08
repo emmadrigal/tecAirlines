@@ -39,7 +39,18 @@ namespace reservationMicroservice.Controllers
         {
             ReservationAccessService dataLayer = new ReservationAccessService("reservations");
 
-            return Ok(dataLayer.SelectReservation(id, DateTime.Parse( date)));
+
+            var datos = dataLayer.SelectReservation(id, date);
+            if (datos != null)
+            {
+                return Ok(datos);
+            }
+            else
+            {
+                return InternalServerError();
+            }
+            
+            
         }
 
         /**

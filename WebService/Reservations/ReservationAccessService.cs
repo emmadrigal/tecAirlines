@@ -23,8 +23,21 @@ namespace reservationMicroservice
         * @param date of the reservation
         * @return information of the reservation
         */
-        public List<Models.Reservation> SelectReservation(string userName, DateTime date)
+        public List<Models.Reservation> SelectReservation(string userName, string date)
         {
+            //Checkea que la fecha venga en el formato correcto
+            try
+            {
+                //Le da el correcto formato a la fecha
+                DateTime fecha = DateTime.Parse(date);
+            }
+            catch
+            {
+                return null;
+            }
+
+
+
             List<string> attributes = new List<string>
             {
                 "userName",
@@ -92,6 +105,44 @@ namespace reservationMicroservice
 
             return reservationReturnList;
         }
+
+        /**
+         * Gets information about a specific reservation
+         * @param userName whose resrvations will be shown
+         * @return List of flights of the user
+         */
+        public List<Models.Reservation> SelectReservationByNumber(string reservationNumber)
+        {
+            List<string> attributes = new List<string>
+            {
+                "reservationNumber"
+            };
+            List<string> keys = new List<string>
+            {
+                reservationNumber
+            };
+
+            List<Models.Reservation> reservationReturnList = new List<Models.Reservation>();
+
+            List<XElement> reservationsElements = GetElement(attributes, keys);
+
+            foreach (XElement reservationElement in reservationsElements)
+            {
+                Models.Reservation reservation = new Models.Reservation()
+                {
+                    ReservationNumber = reservationElement.Attribute("reservationNumber").Value,
+                    IDFlight = long.Parse(reservationElement.Attribute("flightNumber").Value),
+                    SeatNumber = int.Parse(reservationElement.Attribute("seatNumber").Value),
+                    Status = reservationElement.Attribute("status").Value,
+                    Date = DateTime.Parse(reservationElement.Attribute("date").Value)
+                };
+
+                reservationReturnList.Add(reservation);
+            }
+
+            return reservationReturnList;
+        }
+
 
         /**
          * Creates one or more reservations and associates them with a user
