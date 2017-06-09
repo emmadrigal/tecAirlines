@@ -12,6 +12,10 @@
 </nav>
 
 <div class="jumbotron text-center">
+  <div>
+    <label>Tickets: </label>
+    <input class="form-control" type="number" min="1" max="9" id="number" ng-model="number" ng-init="number=1"/>
+  </div>
 	<table>
 	  	<tr ng-repeat="x in listFlights">
 	  		<td>{{x.id}}</td>
@@ -21,7 +25,7 @@
 		    <td>{{ x.price }}</td>
 		    <td>{{ x.depTime }}</td>
 		    <td>{{ x.arrivTime }}</td>
-		    <td><button ng-click="openReservationForm(3)">Make A Reservation</button></td>
+		    <td><button ng-click="openReservationForm()">Make A Reservation</button></td>
 	  	</tr>
 	</table>
 	<div>
