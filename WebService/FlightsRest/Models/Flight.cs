@@ -30,6 +30,9 @@ namespace TecAirlines.Models
         private long distance;
         private float price;
 
+        /// <summary>
+        /// Constructor method initilizes the attributes
+        /// </summary>
         public Flight()
         {
             departureATO = new Airport();

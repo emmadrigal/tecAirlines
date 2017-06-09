@@ -14,12 +14,8 @@ namespace TecAirlines
             string tempPath = Path.GetTempPath();
             string configPath = tempPath + filename + ".xml";
 
-            configPath = "C:\\Users\\Jonathan\\Documents\\Visual Studio 2015\\Projects\\TecAirlines\\TecAirlines\\flightsRead.xml";
-
             //Set the database access to point to the same file
             db.Filename = configPath;
-
-            System.Diagnostics.Debug.WriteLine("CONFIG PATH " + configPath + "\n"); //borrar
 
             //Creates file in case that this is the first run
             if (!File.Exists(configPath))
