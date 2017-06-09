@@ -16,7 +16,7 @@ namespace promotionMicroservice.Controllers
 
 {
 
-	[RoutePrefix("api/promotion")]
+	[RoutePrefix("promotion")]
 	public class PromotionsController : ApiController
 	{
 		/// <summary>
@@ -32,13 +32,14 @@ namespace promotionMicroservice.Controllers
 		/// </summary>
 		/// <param name="newPromotion">is the new promotion to be added</param>
 		/// <returns>The result of the Http action</returns>
-		// POST: api/Promotions/add
+		// POST: promotion/add
 		[Route("add")]
 		[HttpPost]
 		public IHttpActionResult AddPromotion([FromBody]Models.PromotionCreation newPromotion)
 		{
 			PromotionAccessService dataLayer = new PromotionAccessService("promotions");
-			dataLayer.AddPromotion(newPromotion.Id, newPromotion.Text, newPromotion.ExpirationTime);
+			int newID = dataLayer.getSize() + 1;
+			dataLayer.AddPromotion(newID.ToString(), newPromotion.Text, newPromotion.ExpirationTime);
 			return Ok();
 		}
 		/// <summary>
@@ -46,20 +47,20 @@ namespace promotionMicroservice.Controllers
 		/// </summary>
 		/// <param name="newPromotion"></param>
 		/// <returns>returns a result of the Http action to confirm the  update</returns>
-		// POST: api/Promotions/update
+		// Put: promotion/update
 		[Route("update")]
 		[HttpPut]
 		public IHttpActionResult UpdatePromotion([FromBody]Models.PromotionCreation newPromotion)
 		{
 			PromotionAccessService dataLayer = new PromotionAccessService("promotions");
-			dataLayer.Update(newPromotion.Id, newPromotion.Text);
+			dataLayer.Update(newPromotion.Id, newPromotion.Text, newPromotion.ExpirationTime);
 			return Ok();
 		}
 		/// <summary>
 		/// It is used to get all the promotion available
 		/// </summary>
 		/// <returns>returns all the promotions</returns>
-		// GET: api/Promotions/all
+		// GET: promotion/all
 		[Route("all")] 
 		public IHttpActionResult GetPromotions()
 		{
@@ -71,8 +72,8 @@ namespace promotionMicroservice.Controllers
 		/// </summary>
 		/// <param name="id"></param>
 		/// <returns>The promotion according to the id</returns>
-		// GET: api/Promotions/5
-		[Route("{id:int}")]
+		// GET: promotion/5
+		[Route("{id}")]
 		[HttpGet]
 		public IHttpActionResult GetPromotion(string id)
 		{
