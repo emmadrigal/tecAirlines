@@ -102,6 +102,7 @@ namespace promotionMicroservice
 			{
 				
 				DateTime date = DateTime.ParseExact(expirationTime, "dd/mm/yyyy",System.Globalization.CultureInfo.InvariantCulture);
+				int identifier = int.Parse(id);
 				List<string> attributes = new List<string>
 				{
 					"id",
