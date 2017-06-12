@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace reservationMicroservice.Models
 {
@@ -10,16 +7,10 @@ namespace reservationMicroservice.Models
     */
     public class ReservationCreation
     { 
-        
-        private string userName;//user to whom the reservations are asociated
-        private string[] userID;//list of passangers who the reservations will be associated
-        private int flightNumber;//Flight number
-        private DateTime date;//Date of the flight
-
-        public string Username { get; set; }
-        public string[] UserID { get; set; }
-        public int FlightNumber { get; set; }
-        public DateTime Date { get; set; }
+        public string Username { get; set; }//user to whom the reservations are asociated
+        public string[] UserID { get; set; }//list of passangers who the reservations will be associated
+        public int FlightNumber { get; set; }//Flight number
+        public DateTime Date { get; set; }//Date of the flight
 
     }
 }

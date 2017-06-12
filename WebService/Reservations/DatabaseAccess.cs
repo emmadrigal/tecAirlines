@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Xml;
+﻿using System.Collections.Generic;
 using System.Xml.Linq;
 
 
@@ -87,6 +85,10 @@ namespace reservationMicroservice
                     }
                 }
             }
+            else
+            {
+                return null;
+            }
             return lista;
         }
 
@@ -122,6 +124,10 @@ namespace reservationMicroservice
 
                 //Saves the results to the xml file
                 doc.Save(Filename);
+            }
+            else
+            {
+                deleted = false;
             }
 
             return deleted;
@@ -172,6 +178,10 @@ namespace reservationMicroservice
 
                 //Saves the results to the xml file
                 doc.Save(Filename);
+            }
+            else
+            {
+                updated = false;
             }
 
             return updated;

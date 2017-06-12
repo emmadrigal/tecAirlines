@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Web;
+﻿using System.IO;
 using System.Xml.Linq;
 
 namespace reservationMicroservice
@@ -12,8 +8,10 @@ namespace reservationMicroservice
         public void CreateAndLoadXML(DatabaseAccess db, string filename)
         {
             //Gets the temp file from the system
-            string tempPath = Path.GetTempPath();
-            string configPath = tempPath + filename + ".xml";
+            string tempPath = Path.GetDirectoryName(
+      System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase);
+            tempPath = tempPath.Substring(6);
+            string configPath = tempPath + "\\" + filename + ".xml";
 
             //Set the database access to point to the same file
             db.Filename = configPath;

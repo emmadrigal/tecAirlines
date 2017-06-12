@@ -1,18 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace reservationMicroservice.Models
 {
+    /*
+     * This class holds the information for a reservation
+     */
     public class Reservation
     {
-        private string reservationNumber;
-        private long idFlight;
-        private int seatNumber;
-        private string status;
-        private string date;
-
         public string ReservationNumber { get; set; }
         public long IDFlight { get; set; }
         public int SeatNumber { get; set; }
