@@ -63,8 +63,9 @@ tecAirlineApp.controller('loginFormController', function($location, $scope, $uib
 tecAirlineApp.controller('reservationFormController', function($scope, $uibModalInstance, $uibModal, value) {
 	
 	$scope.getNumber = function() {
-        return new Array(value);   
-    }
+    console.log(value);
+    return new Array(value);   
+  }
 
 	$scope.openPaymentForm = function(){
     	var modalInstance = $uibModal.open({
@@ -175,7 +176,7 @@ tecAirlineApp.controller('promotionController', function($scope){
 
 })
 
-tecAirlineApp.controller('mainController', function($scope, $location, $uibModal){
+tecAirlineApp.controller('mainController', function($scope, $location, $uibModal, $http){
 
 	$scope.openSignupForm = function () {
     var modalInstance = $uibModal.open({
@@ -187,13 +188,13 @@ tecAirlineApp.controller('mainController', function($scope, $location, $uibModal
   $scope.openLoginForm = function () {
     var modalInstance = $uibModal.open({
       controller: 'loginFormController',
-      templateUrl: 'loginForm.html',
-      backdrop: 'static',
-      keyboard: false
+      templateUrl: 'loginForm.html'
     });
   }
 
-  $scope.openReservationForm = function(value){
+  $scope.openReservationForm = function(){
+    var value = $scope.number;
+    console.log(value);
   	var modalInstance = $uibModal.open({
 		  controller: 'reservationFormController',
       templateUrl: 'reservationForm.html',
@@ -241,6 +242,7 @@ tecAirlineApp.controller('mainController', function($scope, $location, $uibModal
 
   $scope.oneAtATime = true;
   $scope.isCollapsed = true;
+  $scope.numberTickets;
 
   $scope.status = {
     isCustomHeaderOpen: false,
@@ -271,5 +273,19 @@ tecAirlineApp.controller('mainController', function($scope, $location, $uibModal
 	$scope.goTo = function ( path ) {
   	$location.path( path );
   };
+
+  $scope.getProjects = function(){
+
+    console.log("sirve");
+
+    $http.get('http://192.168.43.219:59719/getAllFlights').then(
+      function(response){
+        $scope.projects = response.data;
+        console.log(projects);
+      },
+      function(response){
+        console.log(error);
+      });
+  }
 
 });
