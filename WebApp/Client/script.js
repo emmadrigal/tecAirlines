@@ -1,6 +1,10 @@
 // create the module and name it scotchApp
 var tecAirlineApp = angular.module('tecAirlineApp', ['ngRoute', 'ui.bootstrap']);
 
+tecAirlineApp.run(function($rootScope) {
+    $rootScope.isLogged = false;
+});
+
 // configure our routes
 tecAirlineApp.config(function($routeProvider) {
 	$routeProvider
@@ -48,16 +52,18 @@ tecAirlineApp.controller('signupFormController', function($scope, $uibModalInsta
 	};
 });
 
-tecAirlineApp.controller('loginFormController', function($location, $scope, $uibModalInstance) {
+tecAirlineApp.controller('loginFormController', function($location, $scope, $uibModalInstance, $rootScope) {
 
-	$scope.addNewUser = function(){
-		$uibModalInstance.dismiss('cancel');
-	}
+  $scope.login = function(){
+    $rootScope.isLogged = true;
+    $scope.goTo('user');
+  }
+
 
 	$scope.goTo = function ( path ) {
-    	$location.path( path );
-    	$uibModalInstance.dismiss('cancel');
-    };
+  	$location.path( path );
+  	$uibModalInstance.dismiss('cancel');
+  };
 });
 
 tecAirlineApp.controller('reservationFormController', function($scope, $uibModalInstance, $uibModal, value) {
@@ -176,7 +182,7 @@ tecAirlineApp.controller('promotionController', function($scope){
 
 })
 
-tecAirlineApp.controller('mainController', function($scope, $location, $uibModal, $http){
+tecAirlineApp.controller('mainController', function($scope, $location, $uibModal, $http, $rootScope){
 
 	$scope.openSignupForm = function () {
     var modalInstance = $uibModal.open({
@@ -304,6 +310,11 @@ tecAirlineApp.controller('mainController', function($scope, $location, $uibModal
       function(response){
         console.log(error);
       });
+  }
+
+  $scope.logout = function(){
+    $rootScope.isLogged = false;
+    $scope.goTo('');
   }
 
 });
