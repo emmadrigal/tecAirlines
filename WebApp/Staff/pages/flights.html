@@ -1,0 +1,34 @@
+<div class="jumbotron container text-center">
+	<div class="modal-header">
+    <h4 class="modal-title" id="myModalLabel" ng-if="admin">Flights Management</h4>
+
+    <h4 class="modal-title" id="myModalLabel" ng-if="!admin">Flights Information</h4>
+
+    <div>
+      <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Departure ATO</th>
+          <th>Arrival ATO</th>
+          <th>Departure Time</th>
+          <th>Arrival Time</th>
+          <th>Status</th>
+          <th>Options</th>       
+        </tr>
+      </thead>
+      <tr ng-repeat="flight in listFlights">
+        <td>{{flight.id}}</td>
+        <td>{{flight.depATO}}</td>
+        <td>{{flight.arrivATO}}</td>
+        <td>{{flight.depTime}}</td>
+        <td>{{flight.arrivTime}}</td>
+        <td>{{getStatus(flight.status)}}</td>
+        <td><button ng-if="admin" ng-click="cancelFlight(flight.id)">Cancel Flight</button> <button ng-if="admin" ng-click="openFlightForm(flight.id)">Modify Flight</button> <button ng-if="!admin" ng-click="openFlightStatusForm()">Flight Status</button> <button ng-if="!admin" ng-click="openFlightForm(flight.id)">Passenger Boarding</button></td>
+      </tr>
+  </table>
+    </div>
+
+    <button ng-click="openFlightForm(0)" ng-if="admin">New Flight</button>
+  </div> 
+</div>

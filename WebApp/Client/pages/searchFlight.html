@@ -15,19 +15,22 @@
   <div>
     <label>Tickets: </label>
     <input class="form-control" type="number" min="1" max="9" id="number" ng-model="number" ng-init="number=1"/>
+    <select ng-model="filter" ng-change="changeFilter(filter)"><option>price</option><option>duration</option><option>scales</option></select>
   </div>
 	<table>
-	  	<tr ng-repeat="x in listFlights">
-	  		<td>{{x.id}}</td>
-		    <td>{{ x.depATO }}</td>
-		    <td>{{ x.arrivATO }}</td>
-		    <td>{{ x.duration }}</td>
-		    <td>{{ x.price }}</td>
-		    <td>{{ x.depTime }}</td>
-		    <td>{{ x.arrivTime }}</td>
+	  	<tr ng-repeat="flight in listFlights.slice(((currentPage-1)*20), ((currentPage)*20)) | orderBy:filter">
+	  		<td>{{ flight.id }}</td>
+		    <td>{{ flight.depATO }}</td>
+		    <td>{{ flight.arrivATO }}</td>
+		    <td>{{ flight.duration }}</td>
+		    <td>{{ flight.price }}</td>
+		    <td>{{ flight.depTime }}</td>
+		    <td>{{ flight.arrivTime }}</td>
+        <td>{{ flight.scales }}</td>
 		    <td><button ng-click="openReservationForm()">Make A Reservation</button></td>
 	  	</tr>
 	</table>
+  <ul uib-pagination direction-links="false" total-items="totalItems" ng-model="currentPage" num-pages="smallnumPages" items-per-page="20"></ul>
 	<div>
 		<button ng-click="goTo('')">Back</button>
 	</div>

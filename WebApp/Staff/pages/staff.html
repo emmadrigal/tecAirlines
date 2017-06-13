@@ -1,0 +1,29 @@
+<div class="jumbotron container text-center">
+	<div class="modal-header">
+    <h4 class="modal-title" id="myModalLabel">Staff Account Management</h4>
+
+    <div>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name ATO</th>
+            <th>First Surname</th>
+            <th>Second Surname</th>
+            <th>Role</th>      
+          </tr>
+        </thead>
+        <tr ng-repeat="staff in listStaff">
+          <td>{{staff.id}}</td>
+          <td>{{staff.name}}</td>
+          <td>{{staff.firstSurname}}</td>
+          <td>{{staff.secondSurname}}</td>
+          <td>{{staff.role}}</td>
+          <td><button ng-click="removeAccount()">Delete Account</button></td>
+        </tr>
+      </table>
+    </div>
+
+    <button ng-click="openStaffForm()">New Staff Account</button>
+  </div> 
+</div>

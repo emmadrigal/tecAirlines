@@ -1,0 +1,28 @@
+<div class="jumbotron container text-center">
+	<div class="modal-header">
+	    <h4 class="modal-title" id="myModalLabel"> LOGIN INFORMATION </h4>
+    </div> 
+
+    <!-- Modal Body -->
+    <div class="modal-body">
+  		<form class="form-horizontal">
+    		<div class="form-group">
+      			<label class="control-label col-sm-2"">Username:</label>
+      			<div class="col-sm-10">
+        			<input type="text" class="form-control" ng-model="loginUsername" placeholder="Enter name">
+      			</div>
+    		</div>
+    		<div class="form-group">
+      			<label class="control-label col-sm-2">Password:</label>
+      			<div class="col-sm-10">
+        			<input type="password" class="form-control" ng-model="loginPassword" placeholder="Enter Identification Number">
+      			</div>
+    		</div>
+  		</form>
+	</div>
+	        
+    <!-- Modal Footer -->
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" ng-click="login()"> SUBMIT </button>
+    </div>
+</div>

@@ -68,16 +68,16 @@ tecAirlineApp.controller('reservationFormController', function($scope, $uibModal
   }
 
 	$scope.openPaymentForm = function(){
-    	var modalInstance = $uibModal.open({
+    var modalInstance = $uibModal.open({
 			controller: 'paymentFormController',
             templateUrl: 'paymentForm.html'
         });
     }
 
     $scope.goBack = function(){
-		$uibModalInstance.dismiss('cancel');
-	}
-});
+		  $uibModalInstance.dismiss('cancel');
+    }
+  });
 
 tecAirlineApp.controller('paymentFormController', function($scope, $uibModalInstance) {
 	$scope.goBack = function(){
@@ -240,6 +240,18 @@ tecAirlineApp.controller('mainController', function($scope, $location, $uibModal
     });
   }
 
+  $scope.listFlights = [
+    {id: 123, depATO: "SJO", arrivATO: "LAX", duration: 1200, price: "$200 or 1000 miles", depTime: "12:00 am", arrivTime: "8:00 pm", scales: 4},
+    {id: 124, depATO: "SJO", arrivATO: "LAX", duration: 100, price: "$100 or 1000 miles", depTime: "12:00 am", arrivTime: "8:00 pm", scales: 3},
+    {id: 125, depATO: "SJO", arrivATO: "LAX", duration: 1500, price: "$300 or 1000 miles", depTime: "12:00 am", arrivTime: "8:00 pm", scales: 2}
+  ];
+
+  //Variables for the pagination of the searchFlight page
+  $scope.totalItems = $scope.listFlights.length;
+  $scope.currentPage = 1;
+
+  $scope.filter = "price"
+
   $scope.oneAtATime = true;
   $scope.isCollapsed = true;
   $scope.numberTickets;
@@ -249,12 +261,6 @@ tecAirlineApp.controller('mainController', function($scope, $location, $uibModal
     isFirstOpen: false,
     isFirstDisabled: false
 	};
-
-	$scope.listFlights = [
-		{id: 123, depATO: "SJO", arrivATO: "LAX", duration: 1200, price: "$100 or 1000 miles", depTime: "12:00 am", arrivTime: "8:00 pm"},
-		{id: 124, depATO: "SJO", arrivATO: "LAX", duration: 1200, price: "$100 or 1000 miles", depTime: "12:00 am", arrivTime: "8:00 pm"},
-		{id: 125, depATO: "SJO", arrivATO: "LAX", duration: 1200, price: "$100 or 1000 miles", depTime: "12:00 am", arrivTime: "8:00 pm"}
-	];
 
 	$scope.user = {
 		name: "Emma",
@@ -269,6 +275,18 @@ tecAirlineApp.controller('mainController', function($scope, $location, $uibModal
 		identification: 1234,
 		frequentFlyerMiles: 10000
 	};
+
+  $scope.changeFilter = function(type){
+    if (type=="price") {
+      $scope.filter = "price";
+    } 
+    if(type =="scales") {
+      $scope.filter = "scales";
+    }
+    else {
+      $scope.filter = "duration";
+    }
+  };
 
 	$scope.goTo = function ( path ) {
   	$location.path( path );
