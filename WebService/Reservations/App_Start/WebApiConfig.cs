@@ -1,4 +1,5 @@
 ﻿using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace reservationMicroservice
 {
@@ -7,6 +8,10 @@ namespace reservationMicroservice
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
+			
+			//This enables cors support, this is required when using Javascript in Chrome
+            var cors = new EnableCorsAttribute("*", "*", "*");
+            config.EnableCors(cors);
 
             // Web API routes
             config.MapHttpAttributeRoutes();
