@@ -31,6 +31,12 @@ namespace FlightWebService
         private long distance;
         private float price;
 
+        public Flight() { }
+        public Flight(Subject subject)
+        {
+            this.subject = subject;
+        }//End of the constructor
+
         //Properties to access to the class attributes
         /// <summary>
         /// Property to access and modify the id of the instance
@@ -181,9 +187,37 @@ namespace FlightWebService
             System.Diagnostics.Debug.WriteLine("Price: " + this.price);
         }//End of the method
 
-        void Observer.update()
+        /// <summary>
+        /// Checks the new state and changes the status if necessary
+        /// </summary>
+        public override void update()
         {
-            
-        }
+            FlightDataBaseAccessService flightAccess;
+            //Gets the new state
+            string state = this.subject.getState();
+            DateTime now = System.DateTime.Parse(state);
+            //They are determined the dates in which the system must open and close the flight
+            DateTime closeDate = this.DepartureDate.AddHours(-1);
+            DateTime openDate = this.DepartureDate.AddHours(-24);
+            //If it is already the time to open the flight
+            if (now.CompareTo(closeDate) < 0 && now.CompareTo(openDate) >= 0)
+            {
+                //The flight is opened
+                this.Status = 1;
+                //The XML file are modified
+                flightAccess = new FlightDataBaseAccessService();
+                flightAccess.modifyStatusXML(this.ID, this.Status);
+            } //If it is the time to close the flight
+            else if (now.CompareTo(closeDate) >= 0 && now.CompareTo(this.DepartureDate) < 0)
+            {
+                //The flight is closed
+                this.Status = 2;
+                //The XML file are modified
+                flightAccess = new FlightDataBaseAccessService();
+                flightAccess.modifyStatusXML(this.ID, this.Status);
+            }
+        }//End of the update
+
+
     }//End of the Flight class
 }
