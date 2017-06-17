@@ -13,16 +13,17 @@
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js"></script>
   <script src="ui-bootstrap-tpls-2.5.0.min.js" type="text/javascript"></script>
   <script src="staffApp.js"></script>
+  <link rel="stylesheet" type="text/css" href="css/tecAirlines.css">
 </head>
 
 <nav class="navbar navbar-default" role="navigation" ng-if="isLogged">
     <div class="navbar-header">
-        <a class="navbar-brand">TEC-Airlines</a>
+        <a class="navbar-brand" style="color: rgba(255, 255, 255, 1);">TEC-Airlines</a>
     </div>
     <div class="collapse navbar-collapse" uib-collapse="isNavCollapsed" ng-if="!admin">
         <ul class="nav navbar-nav navbar-right">
             <li uib-dropdown on-toggle="toggled(open)">
-                <a href id="simple-dropdown" class="nav-text" uib-dropdown-toggle>Signed in as Flight Attendant<span class="caret"></span></a>
+                <a href id="simple-dropdown" class="nav-text" uib-dropdown-toggle style="color: rgba(255, 255, 255, 1);">Signed in as Flight Attendant<span class="caret"></span></a>
                 <ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
                     <li><a ng-click="goTo('flights')">Flight Information</a></li>
                     <li role="separator" class="divider"></li>
@@ -36,7 +37,7 @@
     <div class="collapse navbar-collapse" uib-collapse="isNavCollapsed" ng-if="admin">
         <ul class="nav navbar-nav navbar-right">
             <li uib-dropdown on-toggle="toggled(open)">
-                <a href id="simple-dropdown" class="nav-text" uib-dropdown-toggle>Signed in as Admin<span class="caret"></span></a>
+                <a href id="simple-dropdown" class="nav-text" uib-dropdown-toggle style="color: rgba(255, 255, 255, 1);">Signed in as Admin<span class="caret"></span></a>
                 <ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
                     <li><a ng-click="goTo('flights')">Flights Management</a></li>
                     <li role="separator" class="divider"></li>
@@ -52,8 +53,16 @@
 <!-- define angular controller -->
 <body ng-controller="mainController">
   <script type="text/ng-template" id="messageForm.html">
-    <div>
-      <h1>{{message1}}</h1>
+    <div class="modal-header">
+      <h4 class="modal-title text-center" id="myModalLabel">INFORMATION MESSAGE</h4>
+    </div>
+
+    <div class="modal-body">
+      <form class="form-horizontal">
+        <div class="form-group">
+          <h4 class="control-label col-sm-12">{{message}}</h4>
+        </div>
+      </form>
     </div>
   </script>
 
@@ -75,102 +84,142 @@
     </div>
   </script>
 
-  <script type="text/ng-template" id="flightForm.html">
-    <form>
-      <div>
-        <label>ID</label>
-        <input class="form-control" type="text" ng-model="id" ng-init="id=infoFlight1.id">
-      </div>
-      <div>
-        <label>Departure Airport</label>
-       <input class="form-control" type="text"  ng-model="depATO" ng-init="depATO=infoFlight1.depATO">
-      </div>
-      <div>
-        <label>Arrival Airport</label>
-        <input class="form-control" type="text"  ng-model="arrivATO" ng-init="arrivATO=infoFlight1.arrivATO">
-      </div>
-      <div>
-        <label>Departure Date</label>
-        <input class="form-control" type="text"  ng-model="depTime" ng-init="depTime=infoFlight1.depTime">
-      </div>
-      <div>
-        <label>Arrival Date</label>
-        <input class="form-control" type="text"  ng-model="arrivTime" ng-init="arrivTime=infoFlight1.arrivTime">
-      </div>
-      <div>
-        <label>Stops</label>
-        <input class="form-control" type="text">
-      </div>
-      <div>
-        <label>Airplane</label>
-        <input class="form-control" type="text"  ng-model="airplane" ng-init="airplane=infoFlight1.airplane">
-      </div>
-      <div>
-        <label>Airline</label>
-        <input class="form-control" type="text"  ng-model="airline" ng-init="airline=infoFlight1.airline">
-      </div>
-      <div>
-        <label>Distance</label>
-        <input class="form-control" type="text"  ng-model="distance" ng-init="distance=infoFlight1.distance">
-      </div>
-      <div>
-        <label>Price</label>
-        <input class="form-control" type="text"  ng-model="price" ng-init="price=infoFlight1.price">
-      </div>
-      <div>
-        <button ng-click="goBack()">Cancel</button>
-        <button ng-click="save()">Save</button>
-      </div>
-    </form>
+  <script type="text/ng-template" id="staffForm.html">
+    <div class="modal-header">
+      <h4 class="modal-title text-center" id="myModalLabel"> NEW STAFF INFORMATION </h4>
+    </div> 
+
+      <!-- Modal Body -->
+    <div class="modal-body">
+      <form class="form-horizontal">
+        <div class="form-group">
+          <label class="control-label col-sm-3">Name</label>
+          <div class="col-sm-3">
+            <input class="form-control" type="text">
+          </div>
+          <label class="control-label col-sm-3">1st Surname</label>
+          <div class="col-sm-3">
+            <input class="form-control" type="text">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-3">2nd Surname</label>
+          <div class="col-sm-3">
+            <input class="form-control" type="text">
+          </div>
+          <label class="control-label col-sm-3">Telephone Number</label>
+          <div class="col-sm-3">
+            <input class="form-control" type="text">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-3">Username</label>
+          <div class="col-sm-3">
+            <input class="form-control" type="text">
+          </div>
+          <label class="control-label col-sm-3">Password</label>
+          <div class="col-sm-3">
+            <input class="form-control" type="password">
+          </div>
+        </div>
+        <div class="form-group">
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-3">Birthdate</label>
+          <div class="col-sm-3">
+            <input class="form-control" type="text">
+          </div>
+          <label class="control-label col-sm-2">Email</label>
+          <div class="col-sm-4">
+            <input class="form-control" type="text">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-3">ID</label>
+          <div class="col-sm-3">
+            <input class="form-control" type="text">
+          </div>
+          <label class="control-label col-sm-2">Role </label>
+          <div class="col-sm-3">
+            <select ng-model="type"><option>Administrator</option><option>Flight Attendant</option></select>
+          </div>
+        </div>
+      </form>
+    </div>
+          
+    <!-- Modal Footer -->
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" ng-click="goBack()" style="background-color: rgba(193, 39, 45, 1);">Cancel</button>
+      <button type="button" class="btn btn-default" ng-click="save()" style="background-color: rgba(80, 124, 10, 1);">Save</button>
+    </div>
   </script>
 
-  <script type="text/ng-template" id="staffForm.html">
-    <form>
-      <div>
-        <label>Name</label>
-        <input class="form-control" type="text" id="newName" ng-model="newName" ng-init="newName=user.name">
-      </div>
-      <div>
-        <label>First Surname</label>
-        <input class="form-control" type="text" id="newFirstSurname" ng-model="newFirstSurname" ng-init="newFirstSurname=user.firstSurname">
-      </div>
-      <div>
-        <label>Second Surname</label>
-        <input class="form-control" type="text" id="newSecondSurname" ng-model="newSecondSurname" ng-init="newSecondSurname=user.secondSurname"/
-      </div>
-      <div>
-        <label>Telephone Number</label>
-        <input class="form-control" type="text" id="newTelephoneNumber" ng-model="newTelephoneNumber" ng-init="newTelephoneNumber=user.telephoneNumber">
-      </div>
-      <div>
-        <label>Username</label>
-        <input class="form-control" type="text" id="newUserName" ng-model="newUserName" ng-init="newUserName=user.username">
-      </div>
-      <div>
-        <label>Password</label>
-        <input class="form-control" type="text" id="newPassword" ng-model="newPassword" ng-init="newPassword=user.password">
-      </div>
-      <div>
-        <label>Birthdate</label>
-        <input class="form-control" type="text" id="newBirthdate" ng-model="newBirthdate" ng-init="newBirthdate=user.birthdate">
-      </div>
-      <div>
-        <label>Email</label>
-        <input class="form-control" type="text" id="newEmail" ng-model="newEmail" ng-init="newEmail=user.email">
-      </div>
-      <div>
-        <label>ID</label>
-        <input class="form-control" type="text" id="newID" ng-model="newID" ng-init="newID=user.identification">
-      </div>
-      <div>
-        <label>Role</label>
-        <select ng-model="type"><option>Administrator</option><option>Flight Attendant</option></select>
-      </div>
-      <div>
-        <button ng-click="goBack()">Cancel</button>
-        <button ng-click="save()">Save</button>
-      </div>
-    </form>
+  <script type="text/ng-template" id="flightForm.html">
+
+    <div class="modal-header">
+      <h4 class="modal-title text-center" id="myModalLabel"> FLIGHT INFORMATION </h4>
+    </div> 
+
+    <div class="modal-body">
+      <form class="form-horizontal">
+        <div class="form-group">
+          <label class="control-label col-sm-3">ID</label>
+          <div class="col-sm-3">
+            <input class="form-control" type="text" ng-model="id" ng-init="id=infoFlight1.id">
+          </div>
+          <label class="control-label col-sm-3">Departure ATO</label>
+          <div class="col-sm-3">
+            <input class="form-control" type="text" ng-model="depATO" ng-init="depATO=infoFlight1.depATO">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-3">Arrival ATO</label>
+          <div class="col-sm-3">
+            <input class="form-control" type="text" ng-model="arrivATO" ng-init="arrivATO=infoFlight1.arrivATO">
+          </div>
+          <label class="control-label col-sm-3">Departure Date</label>
+          <div class="col-sm-3">
+            <input class="form-control" type="text" ng-model="depTime" ng-init="depTime=infoFlight1.depTime">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-3">Arrival Date</label>
+          <div class="col-sm-3">
+            <input class="form-control" type="text" ng-model="arrivTime" ng-init="arrivTime=infoFlight1.arrivTime">
+          </div>
+          <label class="control-label col-sm-3">Stops</label>
+          <div class="col-sm-3">
+            <input class="form-control" type="text">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-3">Airplane</label>
+          <div class="col-sm-3">
+            <input class="form-control" type="text" ng-model="airplane" ng-init="airplane=infoFlight1.airplane">
+          </div>
+          <label class="control-label col-sm-3">Airline</label>
+          <div class="col-sm-3">
+            <input class="form-control" type="text" ng-model="airline" ng-init="airline=infoFlight1.airline">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-3">Distance</label>
+          <div class="col-sm-3">
+            <input class="form-control" type="text" ng-model="distance" ng-init="distance=infoFlight1.distance">
+          </div>
+          <label class="control-label col-sm-3">Price</label>
+          <div class="col-sm-3">
+            <input class="form-control" type="text" ng-model="price" ng-init="price=infoFlight1.price">
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- Modal Footer -->
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" ng-click="goBack()" style="background-color: rgba(193, 39, 45, 1);">Cancel</button>
+      <button type="button" class="btn btn-default" ng-click="save()" style="background-color: rgba(80, 124, 10, 1);">Save</button>
+    </div>
   </script>
 
   <div id="main">

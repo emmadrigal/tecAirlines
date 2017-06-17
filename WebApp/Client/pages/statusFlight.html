@@ -1,12 +1,6 @@
 <div class="jumbotron text-center">
   <div class="modal-header">
-    <h4 class="modal-title text-center">Number of Tickets</h4>
-    <input class="form-control text-center" type="number" min="1" max="9" ng-model="number" ng-init="number=1"/>
-    <select ng-model="filter" ng-change="changeFilter(filter)">
-      <option>Price</option>
-      <option>Distance</option>
-      <option>Stops</option>
-    </select>
+    <h4 class="modal-title text-center">Flight Status</h4>
   </div>
 
   <div class="modal-body">
@@ -31,7 +25,6 @@
               <td>{{ flight.ArrivalDate }}</td>
               <td>{{ flight.Distance }}</td>
               <td>{{ flight.Stops.length }}</td>
-              <td><button class="btn btn-default" ng-click="openReservationForm(flight.ID, flight.DepartureDate)">Make A Reservation</button></td>
             </tr>
           </table>
           <ul uib-pagination direction-links="false" total-items="21" ng-model="currentPage" num-pages="smallnumPages" items-per-page="20"></ul>
@@ -41,6 +34,6 @@
   </div>
 
   <div class="modal-footer">
-    <button class="btn btn-default" ng-click="goTo('')" style="background-color: rgba(193, 39, 45, 1);">Back</button>
+    <button class="btn btn-default" ng-click="goTo('')">Back</button>
   </div>
 </div

@@ -24,11 +24,15 @@
         <td>{{flight.depTime}}</td>
         <td>{{flight.arrivTime}}</td>
         <td>{{getStatus(flight.status)}}</td>
-        <td><button ng-if="admin" ng-click="cancelFlight(flight.id)">Cancel Flight</button> <button ng-if="admin" ng-click="openFlightForm(flight.id)">Modify Flight</button> <button ng-if="!admin" ng-click="openFlightStatusForm()">Flight Status</button> <button ng-if="!admin" ng-click="openFlightForm(flight.id)">Passenger Boarding</button></td>
+        <td>
+          <button type="button" class="btn btn-default" ng-if="admin" ng-click="cancelFlight(flight.id)" style="background-color: rgba(193, 39, 45, 1);">Cancel Flight</button>
+          <button type="button" class="btn btn-default" ng-if="admin" ng-click="openFlightForm(flight.id)" style="background-color: rgba(80, 124, 10, 1);">Modify Flight</button> 
+          <button type="button" class="btn btn-default" ng-if="!admin" ng-click="openFlightStatusForm()" style="background-color: rgba(80, 124, 10, 1);">Flight Status</button>
+          <button type="button" class="btn btn-default" ng-if="!admin" ng-click="openFlightForm(flight.id)" style="background-color: rgba(80, 124, 10, 1);">Passenger Boarding</button></td>
       </tr>
   </table>
     </div>
 
-    <button ng-click="openFlightForm(0)" ng-if="admin">New Flight</button>
+    <button type="button" class="btn btn-default" ng-click="openFlightForm(0)" ng-if="admin" style="background-color: rgba(80, 124, 10, 1);">New Flight</button>
   </div> 
 </div>

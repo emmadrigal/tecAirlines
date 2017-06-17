@@ -31,7 +31,7 @@ tecAirlineApp.config(function($routeProvider) {
 });
 
 tecAirlineApp.controller('messageFormController', function($scope, $uibModalInstance, message){
-	$scope.message1 = message;
+	$scope.message = message;
 })
 
 tecAirlineApp.controller('staffFormController', function($scope, $uibModal, $uibModalInstance){
@@ -61,7 +61,7 @@ tecAirlineApp.controller('flightFormController', function($scope, $uibModal, $ui
 	$scope.infoFlight1 = infoFlight;
 
 	$scope.save = function(){
-		var message = "Se han guardado los cambios exitosamente, felicidades";
+		var message = "Changes have been saved succesfully";
 
 		var modalInstance = $uibModal.open({
 			controller: 'messageFormController',
@@ -175,6 +175,20 @@ tecAirlineApp.controller('mainController', function($rootScope, $scope, $locatio
 	  	});
 	}
 
+	$scope.removeAccount = function(){
+		var message = "The account was eliminated succesfully";
+
+		var modalInstance = $uibModal.open({
+			controller: 'messageFormController',
+	  		templateUrl: 'messageForm.html',
+	  		resolve: {
+      			message: function(){
+      				return message;
+      			}
+			}
+		});
+	}
+
 	$scope.openFlightForm = function(ID){
 		var infoFlight = [];
 	  	if (ID != 0){
@@ -199,8 +213,8 @@ tecAirlineApp.controller('mainController', function($rootScope, $scope, $locatio
 	  	});
   	}
 
-  	$scope.openMessageForm = function(){
-  		var message = "The passenger has checked-in succesfully, safe trip.";
+  	$scope.save = function(){
+		var message = "The user was checked-in succesfully";
 
 		var modalInstance = $uibModal.open({
 			controller: 'messageFormController',
@@ -211,7 +225,7 @@ tecAirlineApp.controller('mainController', function($rootScope, $scope, $locatio
       			}
 			}
 		});
-  	}
+	};
 
   	$scope.openFlightStatusForm = function(){
 

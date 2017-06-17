@@ -17,202 +17,290 @@
 </head>
 
 <!-- define angular controller -->
-<body ng-controller="mainController">
+<body ng-controller="mainController"  ng-init="getPromotions()">
 
   <nav class="navbar navbar-default">
   <div class="container">
     <div class="navbar-header">
-      <a class="navbar-brand" href="/" style="color: rgba(255, 255, 255, 1);">TEC-Airlines</a>
+      <a class="navbar-brand" ng-click="goTo('')" style="color: rgba(255, 255, 255, 1);">TEC-Airlines</a>
     </div>
 
     <ul class="nav navbar-nav navbar-right">
-      <li><a ng-click="openSignupForm()" style="color: rgba(255, 255, 255, 1);" ng-if="!isLogged">Sign Up</a></li>
+      <li><a ng-click="openSingupForm()" style="color: rgba(255, 255, 255, 1);" ng-if="!isLogged">Sign Up</a></li>
       <li><a ng-click="openLoginForm()" style="color: rgba(255, 255, 255, 1);" ng-if="!isLogged">Login</a></li>
-      <li uib-dropdown on-toggle="toggled(open)">
-        <a href id="simple-dropdown" class="nav-text" uib-dropdown-toggle ng-if="isLogged">Signed in as {{user.username}} <span class="caret"></span></a>
-        <ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
-            <li><a ng-click="openProfileInfoForm()">Modify Profile Info</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">Booked Flights List</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a ng-click="openCancelReservationForm()">Cancel A Reservation</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a uib-popover="You have {{user.frequentFlyerMiles}} miles" popover-trigger="'mouseenter'" popover-placement="left">Check Miles</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a ng-click="logout()">Sign Out</a></li>
-
-        </ul>
-      </li>
+      <div class="dropdown">
+        <button class="dropbtn" ng-if="isLogged" >Signed in as {{user.username}}</button>
+        <div class="dropdown-content">
+          <li><a ng-click="openProfileInfoForm()">Profile Info</a></li>
+          <li role="separator" class="divider"></li>
+          <li><a href="#">Booked Flights List</a></li>
+          <li role="separator" class="divider"></li>
+          <li><a ng-click="openCancelReservationForm()">Reservation Info</a></li>
+          <li role="separator" class="divider"></li>
+          <li><a uib-popover="You have {{user.frequentFlyerMiles}} miles" popover-trigger="'mouseenter'" popover-placement="left">Check Miles</a></li>
+          <li role="separator" class="divider"></li>
+          <li><a ng-click="logout()">Sign Out</a></li>
+        </div>
+      </div>
     </ul>
   </div>
 </nav>
 
   <script type="text/ng-template" id="reservationForm.html">
-    <table class="table">
-      <tr ng-repeat="x in getNumber() track by $index">
-        <td>Passanger {{$index+1}}</td>
-        <td>
-          <div class="container">
-            <form>
-              <div class="col-md-6 form-group">
-                <label>Name</label>
-                <input class="form-control" type="text"/>
-              </div>
-              <div class="col-md-6 form-group">
-                <label>Email</label>
-                <input class="form-control" type="text"/>
-              </div>
-              <div class="col-md-6 form-group">
-                <label>First Surname</label>
-                <input class="form-control" type="text"/>
-                <label>Second Surname</label>
-                <input class="form-control" type="text"/>
-              </div>
-              <div class="col-md-6 form-group">
-                <label>First Surname</label>
-                <input class="form-control" type="text"/>
-                <label>Second Surname</label>
-                <input class="form-control" type="text"/>
-              </div>
-            </form>
-          </div>
-        </td>
-      </tr>
-    </table>
-    <div>
-      <button type="submit" class="btn btn-default" ng-click="goBack()">Back</button>
-      <button type="submit" class="btn btn-default" ng-click="openPaymentForm()">Accept</button>
+
+    <div class="modal-header">
+      <h4 class="modal-title text-center" id="myModalLabel">Reservation Info</h4>
+    </div>
+
+    <div class="modal-body">
+      <table class="table">
+        <tr ng-repeat="x in getNumber() track by $index">
+          <td>Passanger {{$index+1}}</td>
+          <td>
+            <div class="container">
+              <form class="form-horizontal">
+                <div class="form-group">
+                  <label class="control-label col-sm-3">Name</label>
+                  <div class="col-sm-3">
+                    <input class="form-control" type="text" ng-model="cardNumber">
+                  </div>
+                  <label class="control-label col-sm-2">Email</label>
+                  <div class="col-sm-4">
+                    <input class="form-control" type="text" ng-model="email">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label col-sm-3">ID</label>
+                  <div class="col-sm-9">
+                    <input class="form-control" type="text" ng-model="firstSurname">
+                  </div>
+                </div>
+              </form>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-default" ng-click="goBack()" style="background-color: rgba(193, 39, 45, 1);">Back</button>
+      <button type="submit" class="btn btn-default" ng-click="openPaymentForm()" style="background-color: rgba(80, 124, 10, 1);">Accept</button>
     </div>
   </script>
 
   <script type="text/ng-template" id="paymentForm.html">
-    <form>
-      <div class="col-md-12 form-group">
-        <label>Card Number</label>
-        <input class="form-control" type="text"/>
-        <label>Expiration Date</label>
-        <input class="form-control" type="text"/>
-        <label>Security Code</label>
-        <input class="form-control" type="text"/>
-      </div>
-      <button type="submit" class="btn btn-default" ng-click="goBack()">Back</button>
-      <button type="submit" class="btn btn-default">Finish Reservation</button>
-    </form>
+    <div class="modal-header">
+      <h4 class="modal-title text-center" id="myModalLabel">Payment</h4>
+    </div>
+
+    <div class="modal-body">
+      <form class="form-horizontal">
+        <div class="form-group">
+          <label class="control-label col-sm-3">Card Number</label>
+          <div class="col-sm-9">
+            <input class="form-control" type="number" ng-model="cardNumber">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-4">Expiration Date</label>
+          <div class="col-sm-3">
+            <input class="form-control" type="text" ng-model="expDate">
+          </div>
+          <label class="control-label col-sm-3">Security Code</label>
+          <div class="col-sm-2">
+            <input class="form-control" type="password" ng-model="secCode">
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-default" ng-click="goBack()" style="background-color: rgba(193, 39, 45, 1);">Back</button>
+      <button type="submit" class="btn btn-default" style="background-color: rgba(80, 124, 10, 1);" ng-click="openMessage()">Finish Reservation</button>
+    </div>
+  </script>
+
+  <script type="text/ng-template" id="messageForm.html">
+    <div class="modal-header">
+      <h4 class="modal-title text-center" id="myModalLabel">Information Message</h4>
+    </div>
+
+    <div class="modal-body">
+      <form class="form-horizontal">
+        <div class="form-group">
+          <label class="control-label col-sm-12">{{message}}</label>
+        </div>
+      </form>
+    </div>
   </script>
 
   <script type="text/ng-template" id="cancelReservationForm.html">
-    <form>
-      <table>
-        <tr ng-repeat="x in listFlights">
-          <td>{{x.id}}</td>
-          <td>{{x.depATO}}</td>
-          <td>{{x.arrivATO}}</td>
-          <td>{{x.duration}}</td>
-          <td>{{x.price}}</td>
-          <td>{{x.depTime}}</td>
-          <td>{{x.arrivTime}}</td>
-          <td><button ng-click="">Cancel Reservation</button></td>
-        </tr>
-      </table>
-      <div>
-        <button ng-click="goBack()">Back</button>
-      </div>
-    </form>
+    <div class="modal-header">
+      <h4 class="modal-title text-center" id="myModalLabel">Cancel A Reservation</h4>
+    </div>
+
+    <div class="modal-body">
+      <form class="form-horizontal">
+        <div class="form-group">
+          <div class="col-sm-12">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Reservation Number</th>
+                  <th>Date</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tr ng-repeat="x in data">
+                <td>{{x.IDFlight}}</td>
+                <td>{{x.ReservationNumber}}</td>
+                <td>{{x.Date}}</td>
+                <td>{{x.Status}}</td>
+                <td><button class="btn btn-default" ng-click="cancelReservation(x.ReservationNumber)" style="background-color: rgba(193, 39, 45, 1);">Cancel Reservation</button></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-default" ng-click="goBack()" style="background-color: rgba(193, 39, 45, 1);">Back</button>
+    </div>
+
   </script>
 
   <script type="text/ng-template" id="profileInfoForm.html">
-    <form>
-      <div>
-        <label>Name</label>
-        <input class="form-control" type="text" id="newName" ng-model="newName" ng-init="newName=user.name">
-      </div>
-      <div>
-        <label>First Surname</label>
-        <input class="form-control" type="text" id="newFirstSurname" ng-model="newFirstSurname" ng-init="newFirstSurname=user.firstSurname">
-      </div>
-      <div>
-        <label>Second Surname</label>
-        <input class="form-control" type="text" id="newSecondSurname" ng-model="newSecondSurname" ng-init="newSecondSurname=user.secondSurname"/
-      </div>
-      <div>
-        <label>Telephone Number</label>
-        <input class="form-control" type="text" id="newTelephoneNumber" ng-model="newTelephoneNumber" ng-init="newTelephoneNumber=user.telephoneNumber">
-      </div>
-      <div>
-        <label>Username</label>
-        <input class="form-control" type="text" id="newUserName" ng-model="newUserName" ng-init="newUserName=user.username">
-      </div>
-      <div>
-        <label>Password</label>
-        <input class="form-control" type="text" id="newPassword" ng-model="newPassword" ng-init="newPassword=user.password">
-      </div>
-      <div>
-        <label>Birthdate</label>
-        <input class="form-control" type="text" id="newBirthdate" ng-model="newBirthdate" ng-init="newBirthdate=user.birthdate">
-      </div>
-      <div>
-        <label>Email</label>
-        <input class="form-control" type="text" id="newEmail" ng-model="newEmail" ng-init="newEmail=user.email">
-      </div>
-      <div>
-        <label>ID</label>
-        <input class="form-control" type="text" id="newID" ng-model="newID" ng-init="newID=user.identification">
-      </div>
-      <div>
-        <button ng-click="goBack()">Cancel</button>
-        <button ng-click="saveInfo()">Save</button>
-      </div>
-    </form>
+    <div class="modal-header">
+      <h4 class="modal-title text-center" id="myModalLabel">Modify Profile Info</h4>
+    </div>
+
+    <div class="modal-body">
+      <form class="form-horizontal">
+        <div class="form-group">
+          <label class="control-label col-sm-3">Name</label>
+          <div class="col-sm-3">
+            <input class="form-control" type="text" id="newName" ng-model="newName" ng-init="newName=user.name" ng-readonly="!modify">
+          </div>
+          <label class="control-label col-sm-3">1st Surname</label>
+          <div class="col-sm-3">
+            <input class="form-control" type="text" ng-model="newFirstSurname" ng-init="newFirstSurname=user.firstSurname" ng-readonly="!modify">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-3">2nd Surname</label>
+          <div class="col-sm-3">
+            <input class="form-control" type="text" ng-model="newSecondSurname" ng-init="newSecondSurname=user.secondSurname" ng-readonly="!modify">
+          </div>
+          <label class="control-label col-sm-3">Telephone Number</label>
+          <div class="col-sm-3">
+            <input class="form-control" type="text" ng-model="newTelephoneNumber" ng-init="newTelephoneNumber=user.telephoneNumber" ng-readonly="!modify">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-3">Username</label>
+          <div class="col-sm-3">
+            <input class="form-control" type="text" ng-model="newUserName" ng-init="newUserName=user.username" ng-readonly="!modify">
+          </div>
+          <label class="control-label col-sm-3">Password</label>
+          <div class="col-sm-3">
+            <input class="form-control" type="password" ng-model="newPassword" ng-init="newPassword=user.password" ng-readonly="!modify">
+          </div>
+        </div>
+        <div class="form-group">
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-3">Birthdate</label>
+          <div class="col-sm-3">
+            <input class="form-control" type="text" ng-model="newBirthdate" ng-init="newBirthdate=user.birthdate" ng-readonly="!modify">
+          </div>
+          <label class="control-label col-sm-2">Email</label>
+          <div class="col-sm-4">
+            <input class="form-control" type="text" ng-model="newEmail" ng-init="newEmail=user.email" ng-readonly="!modify">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-3">ID</label>
+          <div class="col-sm-3">
+            <input class="form-control" type="text" ng-model="newID" ng-init="newID=user.identification" ng-readonly="!modify">
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-default" ng-click="goBack()" ng-if="!modify" style="background-color: rgba(193, 39, 45, 1);">Back</button>
+      <button class="btn btn-default" ng-click="modifyInfo()" ng-if="!modify" style="background-color: rgba(80, 124, 10, 1);">Modify</button>
+      <button class="btn btn-default" ng-click="goBack()" ng-if="modify" style="background-color: rgba(193, 39, 45, 1);">Cancel</button>
+      <button class="btn btn-default" ng-click="" ng-if="modify" style="background-color: rgba(80, 124, 10, 1);">Save</button>
+    </div>
   </script>
 
   <script type="text/ng-template" id="signupForm.html">
     <div class="modal-header">
-      <h4 class="modal-title" id="myModalLabel"> NEW CLIENT INFORMATION </h4>
+      <h4 class="modal-title text-center" id="myModalLabel"> NEW CLIENT INFORMATION </h4>
     </div> 
 
       <!-- Modal Body -->
     <div class="modal-body">
       <form class="form-horizontal">
         <div class="form-group">
-            <label class="control-label col-sm-2">Name:</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="newClientName" ng-model="newClientName" placeholder="Enter name">
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-sm-2">Last Name:</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="newClientLastName" ng-model="newClientLastName" placeholder="Enter name">
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-sm-2">ID:</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="newClientID" ng-model="newClientID" placeholder="Enter Identification Number">
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-sm-2">Email:</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="newClientEmail" ng-model="newClientEmail" placeholder="Enter Email">
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-sm-2">Phone Number:</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="newClientPhoneNumber" ng-model="newClientPhoneNumber" placeholder="Enter Phone Number">
-            </div>
-        </div>
-        <div class="form-group">
-          <label class="control-label col-sm-2">Birthday:</label>
-          <div class="col-sm-10">
-            <input type="date" class="form-control" ng-model="startDate">
+          <label class="control-label col-sm-3">Name</label>
+          <div class="col-sm-3">
+            <input class="form-control" type="text">
+          </div>
+          <label class="control-label col-sm-3">1st Surname</label>
+          <div class="col-sm-3">
+            <input class="form-control" type="text">
           </div>
         </div>
         <div class="form-group">
-          <div class="col-sm-10">
+          <label class="control-label col-sm-3">2nd Surname</label>
+          <div class="col-sm-3">
+            <input class="form-control" type="text">
+          </div>
+          <label class="control-label col-sm-3">Telephone Number</label>
+          <div class="col-sm-3">
+            <input class="form-control" type="text">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-3">Username</label>
+          <div class="col-sm-3">
+            <input class="form-control" type="text">
+          </div>
+          <label class="control-label col-sm-3">Password</label>
+          <div class="col-sm-3">
+            <input class="form-control" type="password">
+          </div>
+        </div>
+        <div class="form-group">
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-3">Birthdate</label>
+          <div class="col-sm-3">
+            <input class="form-control" type="text">
+          </div>
+          <label class="control-label col-sm-2">Email</label>
+          <div class="col-sm-4">
+            <input class="form-control" type="text">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-3">ID</label>
+          <div class="col-sm-3">
+            <input class="form-control" type="text">
+          </div>
+          <label class="control-label col-sm-3">Student ID</label>
+          <div class="col-sm-3">
+            <input class="form-control" type="text">
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-6"></div>
+          <label class="control-label col-sm-4">Sign Up With Facebook</label>
+          <div class="col-sm-2">
             <button type="button" class="btn btn-fb"><i class="fa fa-facebook"></i></button>
-            <label>Sign Up With Facebook</label>
           </div>
         </div>
       </form>
@@ -220,13 +308,13 @@
           
     <!-- Modal Footer -->
     <div class="modal-footer">
-        <button type="button" class="btn btn-primary" ng-click=""> Sign Up </button>
+      <button type="button" class="btn btn-default" ng-click="openMessage()" style="background-color: rgba(80, 124, 10, 1);"> Sign Up </button>
     </div>
   </script>
 
   <script type="text/ng-template" id="loginForm.html">
     <div class="modal-header">
-      <h4 class="modal-title" id="myModalLabel">Log In</h4>
+      <h4 class="modal-title text-center" id="myModalLabel">Log In</h4>
     </div> 
 
       <!-- Modal Body -->
@@ -235,19 +323,20 @@
         <div class="form-group">
             <label class="control-label col-sm-2">Username:</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" id="clientUsername" ng-model="clientUsername" placeholder="Enter Username">
+              <input type="text" class="form-control" ng-model="clientUsername" placeholder="Enter Username">
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-sm-2">Password:</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" id="clientPassword" ng-model="clientPassword" placeholder="Enter password">
+              <input type="text" class="form-control" ng-model="clientPassword" placeholder="Enter password">
             </div>
         </div>
         <div class="form-group">
-          <div class="col-sm-10">
-            <button type="button" class="btn btn-fb"><i class="fa fa-facebook"></i></button>
-            <label>Log In With Facebook</label>
+          <div class="col-sm-6"></div>
+          <label class="control-label col-sm-4">Log In With Facebook</label>
+          <div class="col-sm-2">
+            <button type="button" class="btn btn-fb" ng-click="openFBForm()"><i class="fa fa-facebook"></i></button>
           </div>
         </div>
       </form>
@@ -255,7 +344,7 @@
           
     <!-- Modal Footer -->
     <div class="modal-footer">
-        <button type="button" class="btn btn-primary" ng-click="login()">Log In</button>
+      <button type="button" class="btn btn-primary" ng-click="login()" style="background-color: rgba(80, 124, 10, 1);">Log In</button>
     </div>
   </script>
 
@@ -280,15 +369,12 @@
     </div>
     <div class="navbar navbar-default">
       <div class="container">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="/">TEC-Airlines</a>
-    </div>
-
-    <ul class="nav navbar-nav navbar-right">
-      <li><a>About</a></li>
-      <li><a>Contact</a></li>
-    </ul>
-  </div>
+        <ul class="nav navbar-nav navbar-right""">
+          <li><a style="color: rgba(255, 255, 255, 1);">Help</a></li>
+          <li><a style="color: rgba(255, 255, 255, 1);">About</a></li>
+          <li><a style="color: rgba(255, 255, 255, 1);">Contact</a></li>
+        </ul>
+      </div>
     </div>
 </footer>
 

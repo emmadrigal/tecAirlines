@@ -7,7 +7,7 @@
         <thead>
           <tr>
             <th>ID</th>
-            <th>Name ATO</th>
+            <th>Name</th>
             <th>First Surname</th>
             <th>Second Surname</th>
             <th>Role</th>      
@@ -19,11 +19,11 @@
           <td>{{staff.firstSurname}}</td>
           <td>{{staff.secondSurname}}</td>
           <td>{{staff.role}}</td>
-          <td><button ng-click="removeAccount()">Delete Account</button></td>
+          <td><button type="button" class="btn btn-default" ng-click="removeAccount()" style="background-color: rgba(193, 39, 45, 1);">Delete Account</button></td>
         </tr>
       </table>
     </div>
 
-    <button ng-click="openStaffForm()">New Staff Account</button>
+    <button type="button" class="btn btn-default"  style="background-color: rgba(80, 124, 10, 1);" ng-click="openStaffForm()">New Staff Account</button>
   </div> 
 </div>

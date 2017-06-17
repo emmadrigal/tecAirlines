@@ -2,7 +2,25 @@
 var tecAirlineApp = angular.module('tecAirlineApp', ['ngRoute', 'ui.bootstrap']);
 
 tecAirlineApp.run(function($rootScope) {
-    $rootScope.isLogged = false;
+  $rootScope.isLogged = false;
+  $rootScope.rootUrl = "http://192.168.43.163:";
+  $rootScope.modify = false;
+  $rootScope.data;
+  $rootScope.promotions;
+  $rootScope.reservation;
+  $rootScope.user = {
+    name: "Emma",
+    firstSurname: "Madrigal",
+    secondSurname: "Cerdas",
+    id: 123,
+    telephoneNumber: 680,
+    username: "emma123",
+    password: "pass",
+    birthdate: "12/12/1999",
+    email: "email@email.com",
+    identification: 1234,
+    frequentFlyerMiles: 10000
+  };
 });
 
 // configure our routes
@@ -21,120 +39,186 @@ tecAirlineApp.config(function($routeProvider) {
 			controller  : 'mainController'
 		})
 
-		.when('/user', {
-			templateUrl : 'pages/userMain.html',
-			controller : 'mainController'
-		});
 });
 
-tecAirlineApp.controller('signupFormController', function($scope, $uibModalInstance) {
+tecAirlineApp.controller('messageFormController', function($scope, $uibModalInstance, message) {
 
-	$scope.addNewUser = function(){
-		/*var newFile = {
-			Id_Number:  $scope.newClientID,
-			Code: $scope.newClientCode,
-			Name: $scope.newClientName,
-			Phone_Number: $scope.newClientPhoneNumber,
-			Role_usuario: role
-		};
+  $scope.message = message;
 
-		$scope.newData(JSON.stringify(newFile));*/
-		$uibModalInstance.dismiss('cancel');
-	}
-
-	$scope.newData = function(data) {
-		$http.post('http://localhost:50484/Usuario', data).then(
-			function(response) {
-	   			console.log(response);
-    		}, function(error) {
-        		console.log(error);
-    		});
-	};
 });
 
-tecAirlineApp.controller('loginFormController', function($location, $scope, $uibModalInstance, $rootScope) {
+tecAirlineApp.controller('signupFormController', function($scope, $uibModalInstance, $uibModal) {
 
-  $scope.login = function(){
-    $rootScope.isLogged = true;
-    $scope.goTo('user');
+  $scope.goBack = function(){
+    $uibModalInstance.dismiss('cancel');
   }
 
+  $scope.openMessage = function(){
 
-	$scope.goTo = function ( path ) {
-  	$location.path( path );
-  	$uibModalInstance.dismiss('cancel');
-  };
-});
-
-tecAirlineApp.controller('reservationFormController', function($scope, $uibModalInstance, $uibModal, value) {
-	
-	$scope.getNumber = function() {
-    console.log(value);
-    return new Array(value);   
-  }
-
-	$scope.openPaymentForm = function(){
+    var message = "Your account has been created succesfully, check your email to confirm and finish the process.";
     var modalInstance = $uibModal.open({
-			controller: 'paymentFormController',
-            templateUrl: 'paymentForm.html'
-        });
-    }
+      controller: 'messageFormController',
+      templateUrl: 'messageForm.html',
+      resolve: {
+        message: function(){
+          return message;
+        }
+      }
+    });
 
-    $scope.goBack = function(){
-		  $uibModalInstance.dismiss('cancel');
-    }
-  });
-
-tecAirlineApp.controller('paymentFormController', function($scope, $uibModalInstance) {
-	$scope.goBack = function(){
-		$uibModalInstance.dismiss('cancel');
-	}
-});
-
-tecAirlineApp.controller('cancelReservationFormController', function($scope, $uibModalInstance, listFlights) {
-	$scope.listFlights = listFlights;
-	$scope.goBack = function(){
-		$uibModalInstance.dismiss('cancel');
-	}
-});
-
-tecAirlineApp.controller('modifyInfoFormController', function($scope, $uibModalInstance, user) {
-	$scope.user = user;
-
-  $scope.saveInfo = function(){
-    var newFile = {
-      name: $scope.newName,
-      firstSurname: $scope.newFirstSurname,
-      secondSurname: $scope.newSecondSurname,
-      id: 123,
-      telephoneNumber: $scope.newTelephoneNumber,
-      username: $scope.newUserName,
-      password: $scope.newPassword,
-      birthdate: $scope.newBirthdate,
-      email: $scope.newEmail,
-      identification: $scope.newID,
-      frequentFlyerMiles: 10000
-    };
-    console.log(newFile);
     $scope.goBack();
   }
 
+});
+
+tecAirlineApp.controller('loginFormController', function($scope, $uibModalInstance, $uibModal, $rootScope) {
+
+  $scope.login = function(){
+    $rootScope.isLogged = true;
+    $scope.goBack();
+  }
+
+  $scope.goBack = function(){
+    $uibModalInstance.dismiss('cancel');
+  }
+
+});
+
+tecAirlineApp.controller('reservationFormController', function($http, $rootScope, $scope, $uibModalInstance, $uibModal, value) {
+	
+	$scope.getNumber = function() {
+    return new Array(value[0]);   
+  }
+
+	$scope.openPaymentForm = function(){
+
+    var reservation;
+
+    if($rootScope.isLogged){
+      reservation = {
+        userName: $rootScope.user.username,
+        userID: [1, 2, 3],
+        flightNumber: value[1],
+        date: value[2]
+      };
+    }
+    else{
+      reservation = {
+        userName: "nouser",
+        userID: [1, 2, 3],
+        flightNumber: value[1],
+        date: value[2]
+      };
+    }
+
+    $scope.newData(JSON.stringify(reservation));
+
+    var modalInstance = $uibModal.open({
+			controller: 'paymentFormController',
+      templateUrl: 'paymentForm.html'
+      });
+    }
+
+  $scope.goBack = function(){
+	  $uibModalInstance.dismiss('cancel');
+  }
+
+  $scope.newData = function(data) {
+    $http.post($rootScope.rootUrl + "10000/Reservation/create", data).then(
+      function(response) {
+          console.log(response);
+        }, function(error) {
+            console.log(error);
+        });
+  };
+  });
+
+tecAirlineApp.controller('paymentFormController', function($uibModal, $scope, $uibModalInstance) {
+	
+  $scope.goBack = function(){
+		$uibModalInstance.dismiss('cancel');
+	}
+
+  $scope.openMessage = function(){
+
+    var message = "Your payment has been made succesfully, safe flight!";
+    var modalInstance = $uibModal.open({
+      controller: 'messageFormController',
+      templateUrl: 'messageForm.html',
+      resolve: {
+        message: function(){
+          return message;
+        }
+      }
+    });
+
+    $scope.goBack();
+  }
+
+});
+
+tecAirlineApp.controller('cancelReservationFormController', function($http, $rootScope, $scope, $uibModalInstance) {
+
 	$scope.goBack = function(){
+		$uibModalInstance.dismiss('cancel');
+	}
+
+  $scope.cancelReservation = function(id){
+
+    $http.delete($rootScope.rootUrl + "10000/Reservation/" + id).then(
+      function(response){
+        console.log(response);
+      },
+      function(response){
+        console.log(error);
+      }
+    );
+
+    $scope.getContent("10000/Reservation/Kevin");
+  }
+
+   $scope.getContent = function(url){
+    $http.get($rootScope.rootUrl + url).then(
+      function(response){
+        $rootScope.data = response.data;
+        console.log(response.data);
+
+      },
+      function(response){
+        console.log(error);
+      });
+  };
+
+});
+
+tecAirlineApp.controller('modifyInfoFormController', function($rootScope, $scope, $uibModalInstance, user) {
+
+  $scope.user = user;
+
+  $scope.modifyInfo = function(){
+    $rootScope.modify = true;
+  }
+
+	$scope.goBack = function(){
+    $rootScope.modify = false;
 		$uibModalInstance.dismiss('cancel');
 	}
 });
 
-tecAirlineApp.controller('promotionController', function($scope){
-	$scope.myInterval = 5000;
-    $scope.noWrapSlides = false;
+tecAirlineApp.controller('promotionController', function($rootScope, $http, $scope){
+
+
+	$scope.myInterval = 10000;
+  $scope.noWrapSlides = false;
   $scope.active = 0;
   var slides = $scope.slides = [];
   var currIndex = 0;
 
-  $scope.addSlide = function() {
+  $scope.addSlide = function(i) {
+
     var newWidth = 600 + slides.length + 1;
     slides.push({
-      image: '//unsplash.it/' + newWidth + '/300',
+      image: $rootScope.data[i].Link,
       id: currIndex++
     });
   };
@@ -144,9 +228,11 @@ tecAirlineApp.controller('promotionController', function($scope){
     assignNewIndexesToSlides(indexes);
   };
 
-  for (var i = 0; i < 4; i++) {
-    $scope.addSlide();
-  }
+  setTimeout(function() {
+    for (var i = 0; i < $rootScope.data.length; i++) {
+      $scope.addSlide(i);
+    }
+  }, 400);
 
   // Randomize logic below
 
@@ -184,13 +270,6 @@ tecAirlineApp.controller('promotionController', function($scope){
 
 tecAirlineApp.controller('mainController', function($scope, $location, $uibModal, $http, $rootScope){
 
-	$scope.openSignupForm = function () {
-    var modalInstance = $uibModal.open({
-			controller: 'signupFormController',
-      templateUrl: 'signupForm.html'
-    });
-  }
-
   $scope.openLoginForm = function () {
     var modalInstance = $uibModal.open({
       controller: 'loginFormController',
@@ -198,9 +277,19 @@ tecAirlineApp.controller('mainController', function($scope, $location, $uibModal
     });
   }
 
-  $scope.openReservationForm = function(){
-    var value = $scope.number;
-    console.log(value);
+  $scope.openSingupForm = function () {
+    var modalInstance = $uibModal.open({
+      controller: 'signupFormController',
+      templateUrl: 'signupForm.html'
+    });
+  }
+
+
+  $scope.openReservationForm = function(id, date){
+
+
+    var value = [$scope.number, id, date]
+
   	var modalInstance = $uibModal.open({
 		  controller: 'reservationFormController',
       templateUrl: 'reservationForm.html',
@@ -216,17 +305,14 @@ tecAirlineApp.controller('mainController', function($scope, $location, $uibModal
 
   $scope.openCancelReservationForm = function(){
 
+    $scope.getContent("10000/Reservation/Kevin");
+
   	var listFlights = $scope.listFlights;
 	  var modalInstance = $uibModal.open({
 			controller: 'cancelReservationFormController',
       templateUrl: 'cancelReservationForm.html',
       backdrop: 'static',
-      keyboard: false,        
-      resolve: {
-      	listFlights: function(){
-      		return listFlights;
-      	}
-      }
+      keyboard: false
     });
   }
 
@@ -246,17 +332,11 @@ tecAirlineApp.controller('mainController', function($scope, $location, $uibModal
     });
   }
 
-  $scope.listFlights = [
-    {id: 123, depATO: "SJO", arrivATO: "LAX", duration: 1200, price: "$200 or 1000 miles", depTime: "12:00 am", arrivTime: "8:00 pm", scales: 4},
-    {id: 124, depATO: "SJO", arrivATO: "LAX", duration: 100, price: "$100 or 1000 miles", depTime: "12:00 am", arrivTime: "8:00 pm", scales: 3},
-    {id: 125, depATO: "SJO", arrivATO: "LAX", duration: 1500, price: "$300 or 1000 miles", depTime: "12:00 am", arrivTime: "8:00 pm", scales: 2}
-  ];
-
   //Variables for the pagination of the searchFlight page
-  $scope.totalItems = $scope.listFlights.length;
+  //$scope.totalItems = $scope.listFlights.length;
   $scope.currentPage = 1;
 
-  $scope.filter = "price"
+  $scope.filter = "Price";
 
   $scope.oneAtATime = true;
   $scope.isCollapsed = true;
@@ -283,14 +363,14 @@ tecAirlineApp.controller('mainController', function($scope, $location, $uibModal
 	};
 
   $scope.changeFilter = function(type){
-    if (type=="price") {
-      $scope.filter = "price";
+    if (type == "Price") {
+      $scope.filter = "Price";
     } 
-    if(type =="scales") {
-      $scope.filter = "scales";
+    else if(type == "Stops") {
+      $scope.filter = "Stops";
     }
     else {
-      $scope.filter = "duration";
+      $scope.filter = "Distance";
     }
   };
 
@@ -298,23 +378,29 @@ tecAirlineApp.controller('mainController', function($scope, $location, $uibModal
   	$location.path( path );
   };
 
-  $scope.getProjects = function(){
+  $scope.logout = function(){
+    $rootScope.isLogged = false;
+    $scope.goTo('');
+  }
 
-    console.log("sirve");
+  $scope.searchFlights = function(){
+    $scope.getContent("10002/getAllFlights");
+    $scope.goTo("searchFlight");
+  }
 
-    $http.get('http://192.168.43.219:59719/getAllFlights').then(
+  $scope.getContent = function(url){
+    $http.get($rootScope.rootUrl + url).then(
       function(response){
-        $scope.projects = response.data;
-        console.log(projects);
+        $rootScope.data = response.data;
+        console.log(response.data);
       },
       function(response){
         console.log(error);
       });
-  }
+  };
 
-  $scope.logout = function(){
-    $rootScope.isLogged = false;
-    $scope.goTo('');
+  $scope.getPromotions = function(){
+    $scope.getContent('10001/promotion/all');
   }
 
 });
