@@ -39,6 +39,11 @@ tecAirlineApp.config(function($routeProvider) {
 			controller  : 'mainController'
 		})
 
+		.when('/flightStatus', {
+			templateUrl : 'pages/statusFlight.html',
+			controller  : 'mainController'
+		})
+
 });
 
 tecAirlineApp.controller('messageFormController', function($scope, $uibModalInstance, message) {
@@ -133,7 +138,7 @@ tecAirlineApp.controller('reservationFormController', function($http, $rootScope
   };
   });
 
-tecAirlineApp.controller('paymentFormController', function($uibModal, $scope, $uibModalInstance) {
+tecAirlineApp.controller('paymentFormController', function($location, $uibModal, $scope, $uibModalInstance) {
 	
   $scope.goBack = function(){
 		$uibModalInstance.dismiss('cancel');
@@ -153,7 +158,12 @@ tecAirlineApp.controller('paymentFormController', function($uibModal, $scope, $u
     });
 
     $scope.goBack();
+    $scope.goTo('');
   }
+
+  $scope.goTo = function ( path ) {
+  	$location.path( path );
+  };
 
 });
 
@@ -374,7 +384,7 @@ tecAirlineApp.controller('mainController', function($scope, $location, $uibModal
     }
   };
 
-	$scope.goTo = function ( path ) {
+  $scope.goTo = function ( path ) {
   	$location.path( path );
   };
 
@@ -386,6 +396,78 @@ tecAirlineApp.controller('mainController', function($scope, $location, $uibModal
   $scope.searchFlights = function(){
     $scope.getContent("10002/getAllFlights");
     $scope.goTo("searchFlight");
+  }
+
+  $scope.flightStatus = function(){
+  	$scope.getContent("10002/getAllFlights");
+  	$scope.goTo("flightStatus");
+  }
+
+  $scope.checkIn = function (){
+
+  	var message = "You have been checked-in succesfully, safe flight!";
+    var modalInstance = $uibModal.open({
+      controller: 'messageFormController',
+      templateUrl: 'messageForm.html',
+      resolve: {
+        message: function(){
+          return message;
+        }
+      }
+    });
+
+  }
+
+  $scope.openInformation = function(type){
+  	var message = "";
+  	if (type == 1) {
+  		message = "To contact the company you can call the numbers: 2525-2525 or 24242424. You will be attented by our most amazing customer service";
+  	} 
+  	else if (type == 2){
+  		message = "Tec-Airlines is a company created on 2017. Its main mission is to help students with low income to apply and take advantage of scholarships outside Costa Rica";
+  	}
+  	else {
+  		message = "To contact the company you can call the numbers: 2525-2525 or 24242424. You will be attented by our most amazing customer service";
+  	}
+
+  	 var modalInstance = $uibModal.open({
+      controller: 'messageFormController',
+      templateUrl: 'messageForm.html',
+      resolve: {
+        message: function(){
+          return message;
+        }
+      }
+    });
+
+  }
+
+  $scope.openMiles = function(){
+  	var message = "You have " + $scope.user.frequentFlyerMiles + " miles";
+    var modalInstance = $uibModal.open({
+      controller: 'messageFormController',
+      templateUrl: 'messageForm.html',
+      resolve: {
+        message: function(){
+          return message;
+        }
+      }
+    });
+
+  }
+  $scope.getStatus = function(value){
+  	if (value == 0){
+  		return "created";
+  	}
+  	else if (value == 1){
+  		return "open";
+  	} 
+  	else if (value == 2){
+  		return "closed";
+  	}
+  	else{
+  		return "Cancelled";
+  	}
   }
 
   $scope.getContent = function(url){

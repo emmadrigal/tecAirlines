@@ -31,7 +31,7 @@
               <td>{{ flight.ArrivalDate }}</td>
               <td>{{ flight.Distance }}</td>
               <td>{{ flight.Stops.length }}</td>
-              <td><button class="btn btn-default" ng-click="openReservationForm(flight.ID, flight.DepartureDate)">Make A Reservation</button></td>
+              <td><button class="btn btn-default" ng-click="openReservationForm(flight.ID, flight.DepartureDate)" style="background-color: rgba(80, 124, 10, 1);">Make A Reservation</button></td>
             </tr>
           </table>
           <ul uib-pagination direction-links="false" total-items="21" ng-model="currentPage" num-pages="smallnumPages" items-per-page="20"></ul>

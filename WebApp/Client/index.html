@@ -33,11 +33,9 @@
         <div class="dropdown-content">
           <li><a ng-click="openProfileInfoForm()">Profile Info</a></li>
           <li role="separator" class="divider"></li>
-          <li><a href="#">Booked Flights List</a></li>
-          <li role="separator" class="divider"></li>
           <li><a ng-click="openCancelReservationForm()">Reservation Info</a></li>
           <li role="separator" class="divider"></li>
-          <li><a uib-popover="You have {{user.frequentFlyerMiles}} miles" popover-trigger="'mouseenter'" popover-placement="left">Check Miles</a></li>
+          <li><a ng-click="openMiles()">Check Miles</a></li>
           <li role="separator" class="divider"></li>
           <li><a ng-click="logout()">Sign Out</a></li>
         </div>
@@ -83,7 +81,7 @@
     </div>
     <div class="modal-footer">
       <button type="submit" class="btn btn-default" ng-click="goBack()" style="background-color: rgba(193, 39, 45, 1);">Back</button>
-      <button type="submit" class="btn btn-default" ng-click="openPaymentForm()" style="background-color: rgba(80, 124, 10, 1);">Accept</button>
+      <button type="submit" class="btn btn-default" ng-click="openPaymentForm()" style="background-color: rgba(80, 124, 10, 1);"  >Accept</button>
     </div>
   </script>
 
@@ -127,7 +125,7 @@
     <div class="modal-body">
       <form class="form-horizontal">
         <div class="form-group">
-          <label class="control-label col-sm-12">{{message}}</label>
+          <h4 class="control-label col-sm-12">{{message}}</h4>
         </div>
       </form>
     </div>
@@ -370,9 +368,9 @@
     <div class="navbar navbar-default">
       <div class="container">
         <ul class="nav navbar-nav navbar-right""">
-          <li><a style="color: rgba(255, 255, 255, 1);">Help</a></li>
-          <li><a style="color: rgba(255, 255, 255, 1);">About</a></li>
-          <li><a style="color: rgba(255, 255, 255, 1);">Contact</a></li>
+          <li><a style="color: rgba(255, 255, 255, 1);" ng-click="openInformation(1)">Help</a></li>
+          <li><a style="color: rgba(255, 255, 255, 1);" ng-click="openInformation(2)">About</a></li>
+          <li><a style="color: rgba(255, 255, 255, 1);" ng-click="openInformation(3)">Contact</a></li>
         </ul>
       </div>
     </div>

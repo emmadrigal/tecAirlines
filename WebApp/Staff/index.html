@@ -67,8 +67,15 @@
   </script>
 
   <script type="text/ng-template" id="flightStatusForm.html">
-    <div>
-      <table>
+    <div class="modal-header">
+      <h4 class="modal-title text-center" id="myModalLabel"> FlIGHT STATUS </h4>
+    </div>
+
+    <div class="modal-body">
+      <form class="form-horizontal">
+        <div class="form-group">
+          <div class="col-sm-12">
+            <table>
         <thead>
           <tr>
             <th>Reserves Made</th>
@@ -81,7 +88,11 @@
           <td>20</td>
         </tr>
       </table>
+          </div>
+        </div>
+      </form>
     </div>
+
   </script>
 
   <script type="text/ng-template" id="staffForm.html">

@@ -11,20 +11,20 @@
             <thead>
               <tr>
                 <th>ID</th>
-                <th>Price</th>
                 <th>Departure Date</th>
                 <th>Arrival Date</th>
                 <th>Distance</th>
                 <th>Stops</th>
+                <th>Status</th>
               </tr>
             </thead>
             <tr ng-repeat="flight in data.slice(((currentPage-1)*20), ((currentPage)*20)) | orderBy:filter">
               <td>{{ flight.ID }}</td>
-              <td>{{ flight.Price }}</td>
               <td>{{ flight.DepartureDate }}</td>
               <td>{{ flight.ArrivalDate }}</td>
               <td>{{ flight.Distance }}</td>
               <td>{{ flight.Stops.length }}</td>
+              <td>{{ getStatus(flight.Status) }}</td>
             </tr>
           </table>
           <ul uib-pagination direction-links="false" total-items="21" ng-model="currentPage" num-pages="smallnumPages" items-per-page="20"></ul>
@@ -34,6 +34,6 @@
   </div>
 
   <div class="modal-footer">
-    <button class="btn btn-default" ng-click="goTo('')">Back</button>
+    <button class="btn btn-default" ng-click="goTo('')" style="background-color: rgba(193, 39, 45, 1);">Back</button>
   </div>
 </div
